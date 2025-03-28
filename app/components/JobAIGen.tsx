@@ -52,7 +52,7 @@ const JobAIGen: React.FC<Props> = ({ jobDescription, setFindWhichPage, FindWhich
 
       useEffect(() => {
         // console.log(jobDescription,'jobDescription')
-        if (!hasChanged.current && jobDescription?.clickValue && FindWhichPage == 'jobdescription') {
+        if ((!hasChanged.current && jobDescription?.clickValue && FindWhichPage == 'jobdescription')||sessionStorage.getItem("bindData") == null) {
           sendData();
           hasChanged.current = true;
         }

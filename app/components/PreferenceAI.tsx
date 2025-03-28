@@ -45,7 +45,7 @@ const PreferenceAI: React.FC<Props> = ({ jobDescription, setFindWhichPage, FindW
   
 
   useEffect(() => {
-    if (!hasChanged.current && jobDescription?.clickValue && FindWhichPage == 'preference') {
+    if ((!hasChanged.current && jobDescription?.clickValue && FindWhichPage == 'preference')||sessionStorage.getItem("bindData") == null) {
       sendData();
       hasChanged.current = true;
     }
