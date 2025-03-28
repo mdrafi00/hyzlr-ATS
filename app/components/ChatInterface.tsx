@@ -198,19 +198,23 @@ const ChatInterface: React.FC<Props> = ({ jobDescription, setFindWhichPage, Find
       </div>
       <p className="text-xs mx-5">Have more than 10 character</p>
       <div className="flex justify-between my-6 m-5">
-          <button className="flex justify-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+          
+        {chatData != null && chatData.questions.length >= 10 && 
+            <>
+            <button className="flex justify-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
           onClick={()=>{setFindWhichPage('preference')}}
           >
             Preference Based Q&A ✨
           </button>
-        {chatData != null && chatData.questions.length >= 10 && 
         
         
           <button className="flex justify-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
           onClick={()=>{setFindWhichPage('result')}}
           >
             Ready For Result ✨
-          </button>}
+          </button>
+            </>
+          }
       </div>
     </div>
   );
