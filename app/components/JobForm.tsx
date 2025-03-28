@@ -35,6 +35,11 @@ const JobForm: React.FC = () => {
   const [error, setError] = useState<string>("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
+  useEffect(()=>{
+    sessionStorage.removeItem("bindData");
+    sessionStorage.removeItem("questionData");
+  },[jobDescription])
+
 
   useEffect(() => {
     const clickValue = false;

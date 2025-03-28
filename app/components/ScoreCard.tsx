@@ -69,6 +69,7 @@ function ScoreCard({ FindWhichPage }: ScoreCardProps) {
   };
 
   return (
+   <>
     <div className="flex justify-center">
       {data.map((score, index) => (
         <div key={index} className="max-w-md w-full bg-white rounded-lg shadow-lg p-6 dark:bg-gray-800">
@@ -114,9 +115,10 @@ function ScoreCard({ FindWhichPage }: ScoreCardProps) {
           </div>
         </div>
       ))}
-     {loading && <img src="loader.gif" />}
 
     </div>
+     {loading && <img src="loader.gif" />}
+   </>
   );
 }
 
