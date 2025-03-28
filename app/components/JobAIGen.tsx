@@ -40,10 +40,11 @@ const JobAIGen: React.FC<Props> = ({ jobDescription, setFindWhichPage, FindWhich
 
   const [bindData, setBindData] = useState<Candidate | null>(null);
   const hasChanged = useRef(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const savedData = localStorage.getItem("bindData");
+      const savedData = sessionStorage.getItem("bindData");
       setBindData(savedData ? JSON.parse(savedData) : null);
     }
   }, []);
@@ -59,6 +60,7 @@ const JobAIGen: React.FC<Props> = ({ jobDescription, setFindWhichPage, FindWhich
     
       const sendData = async () => {
         try {
+          setLoading(true); // Start loader
           const formData = new FormData();
           formData.append("jobDescription", JSON.stringify(jobDescription));
     
@@ -73,14 +75,16 @@ const JobAIGen: React.FC<Props> = ({ jobDescription, setFindWhichPage, FindWhich
           });
     
           setBindData(res.data.parsedJson?.candidate || null);
-          localStorage.setItem("bindData", JSON.stringify(res.data.parsedJson?.candidate));
+          sessionStorage.setItem("bindData", JSON.stringify(res.data.parsedJson?.candidate));
         } catch (error) {
           if (error instanceof Error) {
             console.error("Error:", error);
             // setErrData(error.message || "Unknown error");
           }
           setBindData(null);
-          localStorage.removeItem("bindData");
+          sessionStorage.removeItem("bindData");
+        } finally {
+          setLoading(false); // Stop loader
         }
       };
       
@@ -89,6 +93,7 @@ const JobAIGen: React.FC<Props> = ({ jobDescription, setFindWhichPage, FindWhich
           <div className="mb-5">
             {/* <h1 className="mb-2 text-5xl text-gray-900 dark:text-white">{errData}</h1> */}
             <h1 className="mb-2 text-5xl text-gray-900 dark:text-white">{bindData?.about || "No information available"}</h1>
+            {loading && <img src="loader.gif" />}
           </div>
           
           {/* Skill sets: */}

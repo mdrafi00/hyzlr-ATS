@@ -36,11 +36,13 @@ interface Category {
 
 const PreferenceAI: React.FC<Props> = ({ jobDescription, setFindWhichPage, FindWhichPage }) => {
   const [questionData, setQuestionData] = useState<QuestionSet[] | null>(() => {
-    const savedData = localStorage.getItem("questionData");
+    const savedData = sessionStorage.getItem("questionData");
     return savedData ? JSON.parse(savedData) : null;
   });
   const hasChanged = useRef(false);
   const [activeSet, setActiveSet] = useState(0);
+    const [loading, setLoading] = useState(false);
+  
 
   useEffect(() => {
     if (!hasChanged.current && jobDescription?.clickValue && FindWhichPage == 'preference') {
@@ -51,6 +53,7 @@ const PreferenceAI: React.FC<Props> = ({ jobDescription, setFindWhichPage, FindW
 
   const sendData = async () => {
     try {
+      setLoading(true); // Start loader
       const formData = new FormData();
       formData.append("jobDescription", JSON.stringify(jobDescription));
 
@@ -65,11 +68,13 @@ const PreferenceAI: React.FC<Props> = ({ jobDescription, setFindWhichPage, FindW
       });
 
       setQuestionData(res.data.parsedJson || null);
-      localStorage.setItem("questionData", JSON.stringify(res.data.parsedJson));
+      sessionStorage.setItem("questionData", JSON.stringify(res.data.parsedJson));
     } catch (error) {
       console.error("Error:", error);
       setQuestionData(null);
-      localStorage.removeItem("questionData");
+      sessionStorage.removeItem("questionData");
+    } finally {
+      setLoading(false); // Stop loader
     }
   };
 
@@ -137,6 +142,8 @@ const PreferenceAI: React.FC<Props> = ({ jobDescription, setFindWhichPage, FindW
             Get Start Interview ✨
           </button>
       </div>: <h1 className="text-5xl">No Information Found!</h1>}
+        {loading && <img src="loader.gif" />}
+
     </div>
   );
 };

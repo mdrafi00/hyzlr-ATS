@@ -56,26 +56,6 @@ export async function POST(req) {
   }
 }
 
-// async function extractTextFromPDF(buffer) {
-//   return new Promise((resolve, reject) => {
-//     let extractedText = "";
-
-//     new PdfReader().parseBuffer(buffer, (err, item) => {
-//       if (err) {
-//         console.error("Error extracting text from PDF:", err);
-//         return reject(err);
-//       }
-//       if (!item) {
-//         return resolve(extractedText.trim()); // End of file
-//       }
-//       if (item.text) {
-//         extractedText += item.text + " ";
-//         console.log('ExtractedText:',extractedText)
-//       }
-//     });
-//   });
-// }
-
 async function extractTextFromFile(buffer, fileType) {
   try {
     if (fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {

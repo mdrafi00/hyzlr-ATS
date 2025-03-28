@@ -137,7 +137,7 @@ const ChatInterface: React.FC<Props> = ({ jobDescription, setFindWhichPage, Find
   };
 
   useEffect(()=>{
-    localStorage.setItem("chatData", JSON.stringify(chatData?.questions));
+    sessionStorage.setItem("chatData", JSON.stringify(chatData?.questions));
   },[chatData])
 
   return (

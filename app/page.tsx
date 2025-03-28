@@ -5,6 +5,8 @@ import StepsAhead from './components/StepsAhead'
 import Footer from './components/Footer'
 
 export default function Home() {
+  console.log = ()=>{};
+  console.warn = () => {}
   return (
 
           <>

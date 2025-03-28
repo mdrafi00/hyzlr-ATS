@@ -33,6 +33,7 @@ const JobForm: React.FC = () => {
   const [manualTitle, setManualTitle] = useState(false);
   const [FindWhichPage, setFindWhichPage] = useState('jobdescription');
   const [error, setError] = useState<string>("");
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
 
   useEffect(() => {
@@ -47,12 +48,13 @@ const JobForm: React.FC = () => {
         setJobDescription((prev) => ({ ...prev, title: "", message: "", file: prev.file,clickValue }));
       }
     }
+    setIsButtonDisabled(false);
   }, [jobDescription.title]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     const clickValue = false;
-
+    setIsButtonDisabled(false);
     setJobDescription((prev) => ({ ...prev, file,clickValue }));
   };
 
@@ -69,7 +71,7 @@ const JobForm: React.FC = () => {
     }
     setError("");
     setJobDescription((prev) => ({ ...prev, clickValue }));
-
+    setIsButtonDisabled(true);
   };
 
   return (
@@ -85,7 +87,7 @@ const JobForm: React.FC = () => {
                 id="jobSelect"
                 name="title"
                 value={jobDescription.title}
-                onChange={(e) => setJobDescription((prev) => ({ ...prev, title: e.target.value, file: prev.file, clickValue: false }))}
+                onChange={(e) => {setJobDescription((prev) => ({ ...prev, title: e.target.value, file: prev.file, clickValue: false }));setIsButtonDisabled(false);}}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
                 <option value="">Choose a job title</option>
@@ -104,7 +106,7 @@ const JobForm: React.FC = () => {
                 id="JDTitle"
                 name="title"
                 value={jobDescription.title}
-                onChange={(e) => setJobDescription((prev) => ({ ...prev, title: e.target.value, file: prev.file, clickValue: false }))}
+                onChange={(e) => {setJobDescription((prev) => ({ ...prev, title: e.target.value, file: prev.file, clickValue: false }));setIsButtonDisabled(false);}}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Enter job title manually"
                 required
@@ -119,7 +121,7 @@ const JobForm: React.FC = () => {
               id="message"
               name="message"
               value={jobDescription.message}
-              onChange={(e) => setJobDescription((prev) => ({ ...prev, message: e.target.value, file: prev.file, clickValue: false }))}
+              onChange={(e) => {setJobDescription((prev) => ({ ...prev, message: e.target.value, file: prev.file, clickValue: false }));setIsButtonDisabled(false);}}
               rows={4}
               className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Write a detailed job description here..."
@@ -141,8 +143,9 @@ const JobForm: React.FC = () => {
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <button
             type="submit"
-            className="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
+            disabled={isButtonDisabled}
+            className={`mt-5 text-white ${isButtonDisabled ? 'bg-gray-700 hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-700' : 'bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'} focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center `}
+            >
             AI Generate ✨
           </button>
         </form>

@@ -127,48 +127,6 @@ export async function PATCH(req) {
   }
 }
 
-//Get Session Data
-export async function GET() {
-    try {
-      const { searchParams } = new URL(req.url);
-      const sessionId = searchParams.get("sessionId");
-  
-      if (!sessionId) {
-        return NextResponse.json({ error: "Session ID is required" }, { status: 400 });
-      }
-  
-      const sessionData = sessions.get(sessionId);
-  
-      if (!sessionData) {
-        return NextResponse.json({ error: "Session not found" }, { status: 404 });
-      }
-  
-      const { questions } = sessions.get(sessionId);
-
-      return NextResponse.json({ questions }, { status: 200 });
-  
-    } catch (error) {
-      console.error("Error retrieving session data:", error);
-      return NextResponse.json({ error: "Internal server error" }, { status: 500 });
-    }
-  }
-  
-
-// // 📌 Extract Text from PDF
-// async function extractTextFromPDF(buffer) {
-//   return new Promise((resolve, reject) => {
-//     let extractedText = "";
-//     new PdfReader().parseBuffer(buffer, (err, item) => {
-//       if (err) {
-//         console.error("Error extracting text from PDF:", err);
-//         reject(err);
-//       }
-//       if (!item) resolve(extractedText.trim());
-//       if (item?.text) extractedText += item?.text + " ";
-//     });
-//   });
-// }
-
 async function extractTextFromFile(buffer, fileType) {
   try {
     if (fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
